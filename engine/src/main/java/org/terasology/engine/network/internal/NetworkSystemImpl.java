@@ -158,9 +158,7 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
     public void host(int port, boolean dedicatedServer) throws HostingFailedException {
         if (mode == NetworkMode.NONE) {
             try {
-                if (hibernationSettings.isPresent()) {
-                    hibernationSettings.get().setHibernationAllowed(false);
-                }
+                hibernationSettings.ifPresent(hibernationManager -> hibernationManager.setHibernationAllowed(false));
                 mode = dedicatedServer ? NetworkMode.DEDICATED_SERVER : NetworkMode.LISTEN_SERVER;
                 for (EntityRef entity : entityManager.getEntitiesWith(NetworkComponent.class)) {
                     registerNetworkEntity(entity);
