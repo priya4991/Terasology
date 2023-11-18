@@ -6,6 +6,8 @@ package org.terasology.engine.core;
 import com.google.common.collect.ImmutableList;
 import com.sun.jna.platform.win32.KnownFolders;
 import com.sun.jna.platform.win32.Shell32Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.engine.context.Context;
 import org.terasology.engine.core.subsystem.DisplayDevice;
 import org.terasology.engine.utilities.OS;

@@ -46,8 +46,7 @@ import java.util.List;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class PlayerSystem extends BaseComponentSystem implements UpdateSubscriberSystem {
-
-    private static final Logger logger = LoggerFactory.getLogger(PlayerSystem.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSystem.class);
     @In
     private EntityManager entityManager;
     @In
@@ -247,7 +246,7 @@ public class PlayerSystem extends BaseComponentSystem implements UpdateSubscribe
         playerCharacter.addComponent(new AliveCharacterComponent());
         playerCharacter.send(new CharacterTeleportEvent(spawnPosition));
 
-        logger.debug("Re-spawing player at: {}", spawnPosition);
+        LOGGER.debug("Re-spawing player at: {}", spawnPosition);
 
         Client clientListener = networkSystem.getOwner(clientEntity);
         Vector3ic distance = clientListener.getViewDistance().getChunkDistance();
