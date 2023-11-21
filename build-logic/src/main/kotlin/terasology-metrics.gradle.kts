@@ -20,33 +20,33 @@ configurations.testImplementation.get().extendsFrom(configurations.compileOnly.g
 dependencies {
     // spotbugs annotations to suppress warnings are not included via spotbugs plugin
     // see bug: https://github.com/spotbugs/spotbugs-gradle-plugin/issues/1018
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.1")
-    pmd("net.sourceforge.pmd:pmd-ant:7.0.0-rc4")
-    pmd("net.sourceforge.pmd:pmd-core:7.0.0-rc4")
-    pmd("net.sourceforge.pmd:pmd-java:7.0.0-rc4")
+    compileOnly("com.github.spotbugs:spotbugs-annotations:_")
+    pmd("net.sourceforge.pmd:pmd-ant:_")
+    pmd("net.sourceforge.pmd:pmd-core:_")
+    pmd("net.sourceforge.pmd:pmd-java:_")
 
-    testRuntimeOnly("ch.qos.logback:logback-classic:1.2.12") {
+    testRuntimeOnly("ch.qos.logback:logback-classic:_") {
         because("runtime: to configure logging during tests with logback.xml")
     }
-    testRuntimeOnly("org.codehaus.janino:janino:3.1.7") {
+    testRuntimeOnly("org.codehaus.janino:janino:_") {
         because("allows use of EvaluatorFilter in logback.xml")
     }
-    testRuntimeOnly("org.slf4j:jul-to-slf4j:1.7.36") {
+    testRuntimeOnly("org.slf4j:jul-to-slf4j:_") {
         because("redirects java.util.logging (from e.g. junit) through slf4j")
     }
 
-    add("testImplementation", platform("org.junit:junit-bom:5.10.1"))
+    add("testImplementation", platform("org.junit:junit-bom:_"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-    testImplementation("org.mockito:mockito-core:5.6.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:5.6.0")
+    testImplementation("org.mockito:mockito-core:_")
+    testImplementation("org.mockito:mockito-junit-jupiter:_")
 
-    testImplementation("com.google.truth:truth:1.1.3")
-    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.3")
+    testImplementation("com.google.truth:truth:_")
+    testImplementation("com.google.truth.extensions:truth-java8-extension:")
 
-    testImplementation("io.projectreactor:reactor-test:3.4.14")
+    testImplementation("io.projectreactor:reactor-test:_")
 }
 
 tasks.withType<Test> {
