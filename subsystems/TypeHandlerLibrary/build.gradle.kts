@@ -36,7 +36,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.mockito:mockito-inline:3.12.4")
 
     testImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
 }
