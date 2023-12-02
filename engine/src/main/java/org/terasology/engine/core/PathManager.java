@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
  * Manager class that keeps track of the game's various paths and save directories.
  */
 public final class PathManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PathManager.class);
     private static final String TERASOLOGY_FOLDER_NAME = "Terasology";
     private static final Path LINUX_HOME_SUBPATH = Paths.get(".local", "share", "terasology");
 
@@ -76,10 +77,9 @@ public final class PathManager {
             Path codeLocation = Paths.get(urlToSource);
             installationSearchPaths.add(codeLocation);
             // Not using logger because it's usually initialized after PathManager.
-            System.out.println("PathManager: Initial code location is " + codeLocation.toAbsolutePath());
+            LOGGER.atInfo().addArgument(codeLocation.toAbsolutePath()).log("PathManager: Initial code location is {}");
         } catch (URISyntaxException e) {
-            System.err.println("PathManager: Failed to convert code location to path.");
-            e.printStackTrace();
+            LOGGER.error("PathManager: Failed to convert code location to path.", e);
         }
 
         // But that's not always true. This jar may be loaded from somewhere else on the classpath.
@@ -89,7 +89,7 @@ public final class PathManager {
         // Use the current directory as a fallback.
         Path currentDirectory = Paths.get("").toAbsolutePath();
         installationSearchPaths.add(currentDirectory);
-        System.out.println("PathManager: Working directory is " + currentDirectory);
+        LOGGER.atInfo().addArgument(currentDirectory).log("PathManager: Working directory is {}");
 
         for (Path startPath : installationSearchPaths) {
             Path installationPath = findNativesHome(startPath, 5);
