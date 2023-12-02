@@ -181,7 +181,7 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
 
                 logger.info("Started server on port {}", port);
                 if (config.getServerMOTD() != null) {
-                    logger.info("Server MOTD is \"{}\"", config.getServerMOTD());
+                    logger.atInfo().addArgument(() -> config.getServerMOTD()).log("Server MOTD is \"{}\"");
                 } else {
                     logger.info("No server MOTD is defined");
                 }
@@ -237,7 +237,7 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
                             return connectionHandler.getJoinStatus();
                         }
                     } else {
-                        logger.warn("Failed to connect to server", connectCheck.cause());
+                        logger.atWarn().addArgument(connectCheck.cause()).log("Failed to connect to server");
                         connectCheck.channel().closeFuture().awaitUninterruptibly();
                         clientGroup.shutdownGracefully(shutdownQuietMs, shutdownTimeoutMs, TimeUnit.MILLISECONDS)
                                 .syncUninterruptibly();
@@ -536,7 +536,8 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
         if (mode != NetworkMode.CLIENT) {
             NetworkComponent netComponent = entity.getComponent(NetworkComponent.class);
             if (netComponent != null) {
-                logger.debug("Unregistering network entity: {} with netId {}", entity, netComponent.getNetworkId());
+                logger.atDebug().addArgument(entity).addArgument(netComponent.getNetworkId()).
+                        log("Unregistering network entity: {} with netId {}");
                 netIdToEntityId.remove(netComponent.getNetworkId());
                 if (mode.isServer()) {
                     for (NetClient client : netClientList) {
@@ -824,7 +825,7 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
         }
         clientList.remove(client);
         clientPlayerLookup.remove(client.getEntity());
-        logger.info("Client disconnected: {}", client.getName());
+        logger.atInfo().addArgument(() -> client.getName()).log("Client disconnected: {}");
         storageManager.deactivatePlayer(client);
         client.getEntity().send(new DisconnectedEvent());
         client.disconnect();
@@ -853,7 +854,7 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
         connectClient(client);
 
         // log after connect so that the name has been set:
-        logger.info("New client entity: {}", client.getEntity());
+        logger.atInfo().addArgument(() -> client.getEntity()).log("New client entity: {}");
         for (EntityRef netEntity : entityManager.getEntitiesWith(NetworkComponent.class)) {
             NetworkComponent netComp = netEntity.getComponent(NetworkComponent.class);
             if (netComp.getNetworkId() != NULL_NET_ID) {
@@ -970,7 +971,8 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
             int fieldId = 0;
             for (FieldMetadata<?, ?> field : metadata.getFields()) {
                 if (fieldId >= 256) {
-                    logger.error("Class {} has too many fields (>255), serialization will be incomplete", metadata.getId());
+                    logger.atError().addArgument(() -> metadata.getId()).
+                            log("Class {} has too many fields (>255), serialization will be incomplete");
                     break;
                 }
                 field.setId((byte) fieldId);
@@ -998,11 +1000,12 @@ public class NetworkSystemImpl implements EntityChangeSubscriber, NetworkSystem 
                     if (field != null) {
                         field.setId(info.getFieldIds().byteAt(i));
                     } else {
-                        logger.error("Server has unknown field '{}' on '{}'", info.getFieldName(i), info.getName());
+                        logger.atError().addArgument(info.getFieldName(i)).addArgument(() -> info.getName()).
+                                log("Server has unknown field '{}' on '{}'");
                     }
                 }
             } else {
-                logger.error("Server has unknown class '{}'", info.getName());
+                logger.atError().addArgument(() -> info.getName()).log("Server has unknown class '{}'");
             }
         }
         return idTable;
