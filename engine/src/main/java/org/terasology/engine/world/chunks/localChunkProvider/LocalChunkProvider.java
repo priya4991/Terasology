@@ -290,7 +290,7 @@ public class LocalChunkProvider implements ChunkProvider {
         try {
             unloadRequestTaskMaster.put(new ChunkUnloadRequest(chunk, this));
         } catch (InterruptedException e) {
-            logger.error("Failed to enqueue unload request for {}", chunk.getPosition(), e);
+            logger.atError().addArgument(() -> chunk.getPosition()).addArgument(e).log("Failed to enqueue unload request for {}");
         }
 
         return true;
@@ -300,7 +300,7 @@ public class LocalChunkProvider implements ChunkProvider {
         try {
             deactivateBlocksQueue.put(createBatchBlockEventMappings(chunk));
         } catch (InterruptedException e) {
-            logger.error("Failed to queue deactivation of blocks for {}", chunk.getPosition());
+            logger.atError().addArgument(() -> chunk.getPosition()).log("Failed to queue deactivation of blocks for {}");
         }
     }
 
