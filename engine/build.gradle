@@ -18,6 +18,7 @@ plugins {
 // Grab all the common stuff like plugins to use, artifact repositories, code analysis config, etc
 apply from: "$rootDir/config/gradle/publish.gradle"
 
+import org.gradle.internal.classpath.AccessTrackingEnvMap
 // Declare "extra properties" (variables) for the project - a Gradle thing that makes them special.
 ext {
     // Read environment variables, including variables passed by jenkins continuous integration server
@@ -152,7 +153,7 @@ dependencies {
     api fileTree(dir: "libs", include: "*.jar")
 
     // TODO: Consider moving this back to the PC Facade instead of having the engine rely on it?
-    implementation("org.terasology.crashreporter:cr-terasology:5.0.0")
+    implementation("org.terasology.crashreporter:cr-terasology:_")
 
     api(project(":subsystems:TypeHandlerLibrary"))
 }
@@ -175,7 +176,10 @@ jar {
             def manifestClasspath = "$subDirLibs/" + configurations."${sourceSets.main.runtimeClasspathConfigurationName}".collect {
                 it.getName()
             }.join(" $subDirLibs/")
-            attributes("Class-Path": manifestClasspath, "Implementation-Title": "Terasology", "Implementation-Version": displayVersion + ", engine v" + project.version + " , build number " + env.BUILD_NUMBER)
+            attributes("Class-Path": manifestClasspath, "Implementation-Title": "Terasology",
+                    "Implementation-Version": displayVersion +
+                            ", engine v" + project.version +
+                            " , build number " + env.BUILD_NUMBER)
         }
     }
 }
@@ -198,7 +202,7 @@ tasks.register("jmh", JavaExec) {
 }
 
 dependencies {
-    jmhAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess:1.27")
+    jmhAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess:_")
     jmhImplementation("org.openjdk.jmh:jmh-core:_")
     jmhImplementation("org.openjdk.jmh:jmh-generator-annprocess:_")
 }

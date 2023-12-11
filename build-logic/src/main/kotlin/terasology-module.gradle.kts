@@ -75,13 +75,13 @@ if (project.name == "ModuleTestingEnvironment") {
     dependencies {
         // MTE is a special snowflake, it gets these things as non-test dependencies
         implementation(group = "org.terasology.engine", name = "engine-tests", version = moduleMetadata.engineVersion())
-        implementation("ch.qos.logback:logback-classic:1.2.12")
-        runtimeOnly("org.codehaus.janino:janino:3.1.3") {
+        implementation("ch.qos.logback:logback-classic:_")
+        runtimeOnly("org.codehaus.janino:janino:_") {
             because("logback filters")
         }
-        add("implementation", platform("org.junit:junit-bom:5.10.1"))
+        add("implementation", platform("org.junit:junit-bom:_"))
         implementation("org.junit.jupiter:junit-jupiter-api")
-        implementation("org.mockito:mockito-junit-jupiter:3.12.4")
+        implementation("org.mockito:mockito-junit-jupiter:_")
     }
 }
 
