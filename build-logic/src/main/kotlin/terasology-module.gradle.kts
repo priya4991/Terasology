@@ -145,7 +145,7 @@ tasks.named("processResources") {
 }
 
 tasks.named("compileJava") {
-    dependsOn("processResources")
+    dependsOn("processResources", ":engine:compileJmhJava")
 }
 
 tasks.named<Test>("test") {

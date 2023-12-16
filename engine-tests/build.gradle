@@ -96,7 +96,7 @@ task copyResourcesToClasses(type:Copy) {
 }
 
 tasks.named("compileJava"){
-    dependsOn(copyResourcesToClasses)
+    dependsOn(copyResourcesToClasses, ":engine:compileJmhJava")
 }
 
 jar { // Workaround about previous copy to classes. idk why engine-tests:jar called before :engine ...
