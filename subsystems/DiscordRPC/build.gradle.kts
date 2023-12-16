@@ -26,3 +26,7 @@ dependencies {
         implementation("org.json:json:20220320")
     }
 }
+
+tasks.named("compileJava") {
+    dependsOn(":engine:compileJmhJava")
+}

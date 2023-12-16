@@ -85,7 +85,7 @@ tasks.register<Copy>("copyResourcesToClasses") {
 }
 
 tasks.named("compileJava") {
-    dependsOn("copyResourcesToClasses")
+    dependsOn(copyResourcesToClasses, ":engine:compileJmhJava")
 }
 
 tasks.withType<Jar> {
