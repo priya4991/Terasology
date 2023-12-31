@@ -4,7 +4,6 @@
 // Engine tests are split out due to otherwise quirky project dependency issues with module tests extending engine tests
 plugins {
     id("java-library")
-    id("org.jetbrains.gradle.plugin.idea-ext")
     id("terasology-common")
 }
 
@@ -119,14 +118,4 @@ tasks.register<Test>("integrationTest") {
         includeTags = setOf("MteTest", "TteTest")
     }
     systemProperty("junit.jupiter.execution.timeout.default", "5m")
-}
-
-idea {
-    module {
-        // Change around the output a bit
-        inheritOutputDirs = false
-        outputDir = file("build/classes")
-        testOutputDir = file("build/testClasses")
-        isDownloadSources = true
-    }
 }

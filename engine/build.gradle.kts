@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter
 
 plugins {
     id("java-library")
-    id("org.jetbrains.gradle.plugin.idea-ext")
     id("com.google.protobuf")
     id("me.champeau.jmh")
     id("terasology-common")
@@ -239,21 +238,4 @@ listOf(
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// General IDE customization                                                                                         //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-idea {
-    module {
-        // Change around the output a bit
-        inheritOutputDirs = false
-        outputDir = file("build/classes")
-        testOutputDir = file("build/testClasses")
-        isDownloadSources = true
-    }
-}
-
-// Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)
-tasks.named("ideaModule") { dependsOn(tasks.getByPath(":extractConfig")) }
-tasks.named("eclipse") { dependsOn(tasks.getByPath(":extractConfig")) }
 tasks.named("check") { dependsOn(tasks.getByPath(":extractConfig")) }

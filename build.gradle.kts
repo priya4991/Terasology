@@ -1,9 +1,6 @@
 // Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-import org.jetbrains.gradle.ext.ActionDelegationConfig
-import org.jetbrains.gradle.ext.delegateActions
-import org.jetbrains.gradle.ext.settings
 import org.terasology.gradology.CopyButNeverOverwrite
 
 // Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
@@ -39,12 +36,6 @@ plugins {
 
     // needs for native platform("org.lwjgl") handling.
     id("java-platform")
-
-    // The root project should not be an eclipse project. It keeps eclipse (4.2) from finding the sub-projects.
-    //apply plugin: "eclipse"
-    id("idea")
-    // For the "Build and run using: Intellij IDEA | Gradle" switch
-    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
 
     id("com.google.protobuf") version "0.9.4" apply false
     id("me.champeau.jmh") version "0.7.2" apply false
@@ -221,52 +212,6 @@ tasks.register<CopyButNeverOverwrite>("jmxPassword") {
     doLast {
         logger.warn("${this.outputs.files.singleFile}/jmxremote.password:100: Edit this to set your password.")
     }
-}
-
-// Make sure the IDE prep includes extraction of natives
-tasks.named("ideaModule") {
-    dependsOn("extractNatives", "copyInMissingTemplates")
-}
-
-// For IntelliJ add a bunch of excluded directories
-idea {
-    module {
-        excludeDirs = setOf(
-            // Exclude Eclipse dirs
-            // TODO: Update this as Eclipse bin dirs now generate in several deeper spots rather than at top-level
-            file("bin"),
-            file(".settings"),
-            // TODO: Add a single file exclude for facades/PC/Terasology.launch ?
-
-            // Exclude special dirs
-            file("natives"),
-            file("protobuf"),
-
-            // Exclude output dirs
-            file("configs"),
-            file("logs"),
-            file("saves"),
-            file("screenshots"),
-            file("terasology-server"),
-            file("terasology-2ndclient")
-        )
-        isDownloadSources = true
-    }
-
-    project.settings.delegateActions {
-        delegateBuildRunToGradle = false
-        testRunner = ActionDelegationConfig.TestRunner.CHOOSE_PER_TEST
-    }
-}
-
-tasks.register("cleanIdeaIws") {
-    doLast {
-        File("Terasology.iws").delete()
-    }
-}
-
-tasks.named("cleanIdea") {
-    dependsOn("cleanIdeaIws")
 }
 
 // A task to assemble various files into a single zip for distribution as "build-harness.zip" for module builds

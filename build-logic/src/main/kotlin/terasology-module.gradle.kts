@@ -3,14 +3,10 @@
 
 // Simple build file for modules - the one under the Core module is the template, will be copied as needed to modules
 
-import org.gradle.plugins.ide.eclipse.model.EclipseModel
-import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.terasology.gradology.ModuleMetadataForGradle
 
 plugins {
     `java-library`
-    idea
-    eclipse
     id("terasology-common")
 }
 
@@ -171,22 +167,4 @@ tasks.register<Test>("integrationTest") {
         includeTags = setOf("MteTest", "TteTest")
     }
     systemProperty("junit.jupiter.execution.timeout.default", "4m")
-}
-
-// Prep an IntelliJ module for the Terasology module - yes, might want to read that twice :D
-configure<IdeaModel> {
-    module {
-        // Change around the output a bit
-        inheritOutputDirs = false
-        outputDir = layout.buildDirectory.dir("classes").get().asFile
-        testOutputDir = layout.buildDirectory.dir("testClasses").get().asFile
-        isDownloadSources = true
-    }
-}
-
-// For Eclipse just make sure the classpath is right
-configure<EclipseModel> {
-    classpath {
-        defaultOutputDir = file("build/classes")
-    }
 }
