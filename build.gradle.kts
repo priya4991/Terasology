@@ -15,13 +15,6 @@ buildscript {
             name = "Terasology Artifactory"
             url = uri("https://artifactory.terasology.io/artifactory/virtual-repo-live")
         }
-
-        // TODO MYSTERY: As of November 7th 2011 virtual-repo-live could no longer be relied on for latest snapshots - Pro feature?
-        // We've been using it that way for *years* and nothing likewise changed in the area for years as well. This seems to work ....
-        maven {
-            name = "Terasology snapshot locals"
-            url = uri("https://artifactory.terasology.io/artifactory/terasology-snapshot-local")
-        }
     }
 
     dependencies {
