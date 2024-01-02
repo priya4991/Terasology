@@ -70,6 +70,9 @@ dependencies {
     // see terasology-metrics for test dependencies
 }
 
+tasks.withType<Jar>().configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 if (project.name == "ModuleTestingEnvironment") {
     dependencies {
