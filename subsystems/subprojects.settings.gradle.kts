@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // This magically allows subdirs in this subproject to themselves become sub-subprojects in a proper tree structure
-new File(rootDir, 'subsystems').eachDir { possibleSubprojectDir ->
+File(rootDir, "subsystems").listFiles()?.filter { it.isDirectory }?.forEach { possibleSubprojectDir ->
     if (!possibleSubprojectDir.name.startsWith(".")) {
-        def subprojectName = 'subsystems:' + possibleSubprojectDir.name
+        val subprojectName = "subsystems:" + possibleSubprojectDir.name
         logger.info("Including '$subprojectName' as a sub-project")
-        include subprojectName
-        def subprojectPath = ':' + subprojectName
-        def subproject = project(subprojectPath)
+        include(subprojectName)
+        val subprojectPath = ":" + subprojectName
+        val subproject = project(subprojectPath)
         subproject.projectDir = possibleSubprojectDir
     } else {
-        logger.info("Ignoring hidden folder '$possibleSubprojectDir'")
+        logger.info("Ignoring hidden folder $possibleSubprojectDir")
     }
 }
