@@ -284,6 +284,7 @@ distributions {
     }
 }
 
+tasks.named<GenerateIdeaModule>("ideaModule") { dependsOn(tasks.getByPath(":copyInMissingTemplates")) }
 
 /********************************
  * Eclipse Integration

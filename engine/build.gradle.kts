@@ -255,6 +255,6 @@ idea {
 }
 
 // Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)
-tasks.named("ideaModule") { dependsOn(tasks.getByPath(":extractConfig")) }
+tasks.named("ideaModule") { dependsOn(tasks.getByPath(":copyInMissingTemplates"), tasks.getByPath(":extractConfig")) }
 tasks.named("eclipse") { dependsOn(tasks.getByPath(":extractConfig")) }
 tasks.named("check") { dependsOn(tasks.getByPath(":extractConfig")) }

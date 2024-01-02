@@ -224,9 +224,11 @@ tasks.register<CopyButNeverOverwrite>("jmxPassword") {
 }
 
 // Make sure the IDE prep includes extraction of natives
-tasks.named("ideaModule") {
-    dependsOn("extractNatives", "copyInMissingTemplates")
-}
+tasks.named<GenerateIdeaModule>("ideaModule") { dependsOn("extractNatives", "copyInMissingTemplates") }
+
+tasks.named<GenerateIdeaProject>("ideaProject") { dependsOn(":copyInMissingTemplates") }
+
+tasks.named<GenerateIdeaWorkspace>("ideaWorkspace") { dependsOn(":copyInMissingTemplates") }
 
 // For IntelliJ add a bunch of excluded directories
 idea {

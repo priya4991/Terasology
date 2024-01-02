@@ -22,3 +22,5 @@ buildscript {
 plugins {
     id("terasology-module")
 }
+
+tasks.named("ideaModule", GenerateIdeaModule) { dependsOn(tasks.getByPath(":copyInMissingTemplates")) }

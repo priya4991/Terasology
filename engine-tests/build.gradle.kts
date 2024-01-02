@@ -121,6 +121,8 @@ tasks.register<Test>("integrationTest") {
     systemProperty("junit.jupiter.execution.timeout.default", "5m")
 }
 
+tasks.named<GenerateIdeaModule>("ideaModule") { dependsOn(tasks.getByPath(":copyInMissingTemplates")) }
+
 idea {
     module {
         // Change around the output a bit
